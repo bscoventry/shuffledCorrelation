@@ -10,6 +10,7 @@ function [R,pvalue] = shuffledCorrelation(timeseries1,timeseries2,numShuff,usePa
 % times and calculates an empiracle p-value. numShuff should be large to adequately sample the null distirbution. I Start
 % with 5000. If useParallel == 1, use Matlab parallel computing toolbox. Set to 0 otherwise.
 expR = corrcoef(timeseries1,timeseries2);
+R = expR(1,2);
 shufLen = length(timeseries1);
 RCounter = 0;
 if useParallel==1
@@ -17,7 +18,8 @@ if useParallel==1
         shufIDX = randperm(shufLen);
         ts2 = timeseries2(:,shufIDX);           %Shuffle timeseries 2
         Remp = corrcoef(shufIDX,ts2);
-        if Remp>expR
+        Remp = Remp(1,2);
+        if Remp>R
             RCounter = RCounter + 1;
         end
     end
@@ -27,10 +29,10 @@ else
         shufIDX = randperm(shufLen);
         ts2 = timeseries2(:,shufIDX);           %Shuffle timeseries 2
         Remp = corrcoef(shufIDX,ts2);
-        if Remp>expR
+        Remp = Remp(1,2);
+        if Remp>R
             RCounter = RCounter + 1;
         end
     end
     pvalue = RCounter./numShuff;                %Empiracle p-value
 end
-R = expR;
