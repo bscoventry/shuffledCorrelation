@@ -19,7 +19,7 @@ if useParallel==1
         ts2 = timeseries2(:,shufIDX);           %Shuffle timeseries 2
         Remp = corrcoef(shufIDX,ts2);
         Remp = Remp(1,2);
-        if Remp>R
+        if abs(Remp)>abs(R)
             RCounter = RCounter + 1;
         end
     end
@@ -30,7 +30,7 @@ else
         ts2 = timeseries2(:,shufIDX);           %Shuffle timeseries 2
         Remp = corrcoef(shufIDX,ts2);
         Remp = Remp(1,2);
-        if Remp>R
+        if abs(Remp)>abs(R)
             RCounter = RCounter + 1;
         end
     end
